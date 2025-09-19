@@ -79,7 +79,7 @@ export default function PersonalInfoForm({ form, errors, handleChange }: Persona
             />
 
             {/* Sex */}
-            <FormControl fullWidth margin="normal" error={!!errors.sex} required>
+            <FormControl fullWidth margin="normal" error={!!errors.sex}>
                 <InputLabel>Sex</InputLabel>
                 <Select label="Sex" value={form.sex || ''} onChange={(e) => handleChange('personalInfo', 'sex', e.target.value)}>
                     {['Male', 'Female', 'Other'].map((sex) => (
@@ -96,7 +96,7 @@ export default function PersonalInfoForm({ form, errors, handleChange }: Persona
             </FormControl>
 
             {/* Religion */}
-            <FormControl fullWidth margin="normal" error={!!errors.religion} required>
+            <FormControl fullWidth margin="normal" error={!!errors.religion}>
                 <InputLabel>Religion</InputLabel>
                 <Select label="Religion" value={form.religion || ''} onChange={(e) => handleChange('personalInfo', 'religion', e.target.value)}>
                     {['Catholic', 'Christian', 'Others'].map((religion) => (
@@ -113,7 +113,7 @@ export default function PersonalInfoForm({ form, errors, handleChange }: Persona
             </FormControl>
 
             {/* Civil Status */}
-            <FormControl fullWidth margin="normal" error={!!errors.civil_status} required>
+            <FormControl fullWidth margin="normal" error={!!errors.civil_status}>
                 <InputLabel>Civil Status</InputLabel>
                 <Select
                     label="Civil Status"
@@ -183,7 +183,7 @@ export default function PersonalInfoForm({ form, errors, handleChange }: Persona
             />
 
             {/* Disability */}
-            <FormControl fullWidth margin="normal" error={!!errors.disability} required>
+            <FormControl fullWidth margin="normal" error={!!errors.disability}>
                 <InputLabel>Disability</InputLabel>
                 <Select label="Disability" value={form.disability || ''} onChange={(e) => handleChange('personalInfo', 'disability', e.target.value)}>
                     {['Visual', 'Hearing', 'Speech', 'Physical', 'Mental', 'Others'].map((d) => (
@@ -226,7 +226,7 @@ export default function PersonalInfoForm({ form, errors, handleChange }: Persona
             />
 
             {/* Employment Status */}
-            <FormControl fullWidth margin="normal" error={!!errors.employment_status} required>
+            <FormControl fullWidth margin="normal" error={!!errors.employment_status}>
                 <InputLabel>Employment Status</InputLabel>
                 <Select
                     label="Employment Status"

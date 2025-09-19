@@ -18,9 +18,10 @@ export default function JobPreference({ form, errors, handleChange }: JobPrefere
                 Job Preference
             </Typography>
 
-            <FormControl fullWidth margin="normal" error={!!errors?.employment} required>
+            <FormControl fullWidth margin="normal" error={!!errors?.employment}>
                 <InputLabel id="employment-label">Employment Type</InputLabel>
                 <Select
+                    label="Employment Type"
                     labelId="employment-label"
                     value={form?.employment || ''}
                     onChange={(e) => handleChange('jobPreference', 'employment', e.target.value)}

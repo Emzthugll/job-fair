@@ -2,7 +2,6 @@ import { ApplicantFormData } from './formTypes';
 
 export const formDefaults: ApplicantFormData = {
     personalInfo: {
-        // <-- renamed
         firstname: '',
         midname: '',
         surname: '',
