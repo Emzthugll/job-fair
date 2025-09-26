@@ -2,12 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\ApplicantController;
+
 
 
 
 Route::get('/', function () {
-    return Inertia::render('form'); 
+    return Inertia::render('main'); 
 });
+
+Route::post('/main', [ApplicantController::class, 'main'])->name('main.store');
 
 
 

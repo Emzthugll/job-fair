@@ -1,60 +1,53 @@
-import { ApplicantFormData } from '@/forms/formTypes';
-import { Box, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Input } from '@/components/ui/input';
 
-interface EducationalBackgroundProps {
-    form: ApplicantFormData['education'];
-    errors: Partial<Record<keyof ApplicantFormData['education'], string>>;
-    handleChange: <K extends keyof ApplicantFormData['education']>(section: 'education', field: K, value: ApplicantFormData['education'][K]) => void;
+interface StepProps {
+    nextStep?: () => void;
+    previousStep?: () => void;
+    errors: Record<string, string>;
+    processing?: boolean;
 }
 
-export default function EducationalBackground({ form, errors, handleChange }: EducationalBackgroundProps) {
+export default function EducationalBackground({ previousStep, errors, processing }: StepProps) {
     return (
-        <Box>
-            <Typography variant="h6" mb={2}>
-                Educational Background (Highest)
-            </Typography>
+        <div className="space-y-4">
+            <h3 className="text-2xl font-semibold">Educational Background</h3>
 
-            {/* Level */}
-            <FormControl fullWidth margin="normal" error={!!errors.level}>
-                <InputLabel>Highest Education Level</InputLabel>
-                <Select label="Highest Education Level" value={form.level || ''} onChange={(e) => handleChange('education', 'level', e.target.value)}>
-                    {['Elementary', 'Secondary(Non-K-12)', 'Secondary(K-12)', 'Tertiary', 'Graduate Studies/Post-Graduate'].map((level) => (
-                        <MenuItem key={level} value={level}>
-                            {level}
-                        </MenuItem>
-                    ))}
-                </Select>
-                {errors.level && (
-                    <Typography variant="caption" color="error">
-                        {errors.level}
-                    </Typography>
+            <div className="mb-4 flex flex-col">
+                <label htmlFor="level" className="mb-1">
+                    Highest Attainment:
+                </label>
+                <select id="level" name="level" className="rounded-md border bg-blue-900 p-2 text-white">
+                    <option value="">Select...</option>
+                    <option value="elementary">Elementary</option>
+                    <option value="secondary nonk12">Secondary (Non-K12)</option>
+                    <option value="secondary k12">Secondary (K12)</option>
+                    <option value="tertiary">Tertiary</option>
+                    <option value="postgrad">Graduate Studies/Post Graduate</option>
+                </select>
+            </div>
+            <div>
+                <label htmlFor="course">Course/Strand:</label>
+                <Input className={errors.course && 'border border-red-500'} />
+                {<p className="text-sm text-red-500">{errors.course}</p>}
+            </div>
+            <div>
+                <label htmlFor="year_graduated">Year Graduated:</label>
+                <Input className={errors.year_graduated && 'border border-red-500'} />
+                {<p className="text-sm text-red-500">{errors.year_graduated}</p>}
+            </div>
+
+            <div className="mt-4 flex justify-between">
+                {previousStep && (
+                    <button type="button" onClick={previousStep} className="rounded-md bg-gray-500 px-4 py-2 text-white hover:bg-gray-600">
+                        Previous
+                    </button>
                 )}
-            </FormControl>
 
-            {/* Course */}
-            <TextField
-                fullWidth
-                margin="normal"
-                label="Course"
-                required
-                value={form.course || ''}
-                onChange={(e) => handleChange('education', 'course', e.target.value)}
-                error={!!errors?.course}
-                helperText={errors?.course}
-            />
-
-            {/* Year Graduated */}
-            <TextField
-                fullWidth
-                margin="normal"
-                label="Year Graduated"
-                required
-                value={form.year_graduated || ''}
-                onChange={(e) => handleChange('education', 'year_graduated', e.target.value)}
-                error={!!errors?.year_graduated}
-                helperText={errors?.year_graduated}
-                inputProps={{ maxLength: 4 }}
-            />
-        </Box>
+                {/* Submit button */}
+                <button type="submit" disabled={processing} className="rounded-md bg-[#033284] px-4 py-2 text-white hover:bg-[#0242b3d2]">
+                    {processing ? 'Submitting...' : 'Submit'}
+                </button>
+            </div>
+        </div>
     );
 }
