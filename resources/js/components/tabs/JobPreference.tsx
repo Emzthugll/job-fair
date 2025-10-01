@@ -1,12 +1,18 @@
 import { Input } from '@/components/ui/input';
+import { Applicant } from '@/types/Applicant';
 
-interface StepProps {
+interface StepWizardInjectedProps {
     nextStep?: () => void;
     previousStep?: () => void;
+    goToStep?: (step: number) => void;
+}
+
+interface JobPreferenceProps extends StepWizardInjectedProps {
+    form: Applicant;
     errors: Record<string, string>;
 }
 
-export default function JobPreference({ previousStep, errors, nextStep }: StepProps) {
+export default function JobPreference({ form, errors, previousStep, nextStep }: JobPreferenceProps) {
     return (
         <div className="space-y-8">
             <h3 className="text-2xl font-semibold">Job Preference</h3>
@@ -15,6 +21,7 @@ export default function JobPreference({ previousStep, errors, nextStep }: StepPr
                     Employment Type:
                 </label>
                 <select
+                    defaultValue={form.employment}
                     id="employment"
                     name="employment"
                     className={`w-full rounded-md border-2 border-blue-800 p-2 text-black ${errors.employment ? 'border-2 border-red-500' : ''}`}
@@ -27,7 +34,12 @@ export default function JobPreference({ previousStep, errors, nextStep }: StepPr
             </div>
             <div className="mb-10">
                 <label htmlFor="preferred_job">Preferred Job:</label>
-                <Input id="preferred_job" name="preferred_job" className={errors.preferred_job && 'border-2 border-red-500'} />
+                <Input
+                    defaultValue={form.preferred_job}
+                    id="preferred_job"
+                    name="preferred_job"
+                    className={errors.preferred_job && 'border-2 border-red-500'}
+                />
                 {<p className="text-sm text-red-500">{errors.preferred_job}</p>}
             </div>
 
@@ -38,27 +50,28 @@ export default function JobPreference({ previousStep, errors, nextStep }: StepPr
                     Highest Attainment:
                 </label>
                 <select
+                    defaultValue={form.level}
                     id="level"
                     name="level"
                     className={`w-full rounded-md border-2 border-blue-800 p-2 text-black ${errors.level ? 'border-2 border-red-500' : ''}`}
                 >
                     <option value="">Select...</option>
-                    <option value="elementary">Elementary</option>
-                    <option value="secondary nonk12">Secondary (Non-K12)</option>
-                    <option value="secondary k12">Secondary (K12)</option>
-                    <option value="tertiary">Tertiary</option>
-                    <option value="postgrad">Graduate Studies/Post Graduate</option>
+                    <option value="1">Elementary</option>
+                    <option value="2">High School</option>
+                    <option value="3">Technical Vocational</option>
+                    <option value="4">College</option>
+                    <option value="5">Post Graduate</option>
                 </select>
                 {<p className="text-sm text-red-500">{errors.level}</p>}
             </div>
             <div>
                 <label htmlFor="course">Course/Strand:</label>
-                <Input className={errors.course && 'border border-red-500'} />
+                <Input defaultValue={form.course} className={errors.course && 'border border-red-500'} />
                 {<p className="text-sm text-red-500">{errors.course}</p>}
             </div>
             <div className="mb-10">
                 <label htmlFor="year_graduated">Year Graduated:</label>
-                <Input type="number" className={errors.year_graduated && 'border border-red-500'} />
+                <Input defaultValue={form.year_graduated} type="number" className={errors.year_graduated && 'border border-red-500'} />
                 {<p className="text-sm text-red-500">{errors.year_graduated}</p>}
             </div>
 

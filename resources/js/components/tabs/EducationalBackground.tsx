@@ -18,11 +18,11 @@ export default function EducationalBackground({ previousStep, errors, processing
                 </label>
                 <select id="level" name="level" className="rounded-md border bg-blue-900 p-2 text-white">
                     <option value="">Select...</option>
-                    <option value="elementary">Elementary</option>
-                    <option value="secondary nonk12">Secondary (Non-K12)</option>
-                    <option value="secondary k12">Secondary (K12)</option>
-                    <option value="tertiary">Tertiary</option>
-                    <option value="postgrad">Graduate Studies/Post Graduate</option>
+                    <option value="1">Elementary</option>
+                    <option value="2">High School</option>
+                    <option value="3">Technical Vocational</option>
+                    <option value="4">College</option>
+                    <option value="5">Post Graduate</option>
                 </select>
             </div>
             <div>

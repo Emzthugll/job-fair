@@ -56,21 +56,40 @@ class ApplicantProfileController extends Controller
 
     // Education
     public function saveEducation(Request $request)
-    {
-        $validated = $request->validate([
-            'user_id'        => 'required|integer|exists:users,id',
-            'level'          => 'required|string',
-            'course'         => 'required|string',
-            'year_graduated' => 'required|integer',
-        ]);
+{
+    $validated = $request->validate([
+        'user_id'        => 'required|integer|exists:users,id',
+        'level'          => 'required|integer',
+        'course'         => 'required|string',
+        'year_graduated' => 'required|integer',
+    ]);
 
-        DB::table('applicant_profile_educational_backgrounds')->updateOrInsert(
-            ['user_id' => $validated['user_id']],
-            $validated
-        );
+    DB::table('applicant_profile_educational_backgrounds')->updateOrInsert(
+        ['user_id' => $validated['user_id']],
+        $validated
+    );
 
-        return response()->json(['message' => 'Education saved successfully']);
-    }
+    // Mapping
+    $levels = [
+        1 => 'Elementary',
+        2 => 'High School',
+        3 => 'Technical Vocational',
+        4 => 'College',
+        5 => 'Post Graduate',
+    ];
+
+    $education = DB::table('applicant_profile_educational_backgrounds')
+        ->where('user_id', $validated['user_id'])
+        ->first();
+
+    $education->level_label = $levels[$education->level] ?? 'Unknown';
+
+    return response()->json([
+        'message'   => 'Education saved successfully',
+        'education' => $education,
+    ]);
+}
+
 
     // Training (Optional)
     public function saveTraining(Request $request)

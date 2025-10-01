@@ -12,7 +12,7 @@ class EducationalBackgroundController extends Controller
     {
         $validated = $request->validate([
             'applicant_profile_id' => 'required|integer',
-            'level'         => 'required|string',
+            'level'         => 'required|integer|in:1,2,3,4,5',
             'course'        => 'required|string',
             'year_graduated'=> 'required|integer',
         ]);

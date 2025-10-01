@@ -1,35 +1,41 @@
 import { Input } from '@/components/ui/input';
+import { Applicant } from '@/types/Applicant';
 
-interface StepProps {
+interface StepWizardInjectedProps {
     nextStep?: () => void;
     previousStep?: () => void;
+    goToStep?: (step: number) => void;
+}
+
+interface WorkExperienceProps extends StepWizardInjectedProps {
+    form: Applicant;
     errors: Record<string, string>;
     processing?: boolean;
 }
 
-export default function WorkExperience({ previousStep, errors, processing }: StepProps) {
+export default function WorkExperience({ form, errors, previousStep, processing }: WorkExperienceProps) {
     return (
         <div className="space-y-4">
             <h3 className="text-2xl font-semibold">Eligibility/Professional License (Optional)</h3>
             <div>
                 <label htmlFor="eligibility_name">License or Eligibility Name:</label>
-                <Input placeholder="e.g., Civil Service Eligibility" className={errors.eligibility_name && 'border border-red-500'} />
+                <Input defaultValue={form.eligibility_name} className={errors.eligibility_name && 'border border-red-500'} />
                 {<p className="text-sm text-red-500">{errors.eligibility_name}</p>}
             </div>
             <div>
                 <label htmlFor="issuer">Issuing Organization:</label>
-                <Input className={errors.issuer && 'border border-red-500'} />
+                <Input defaultValue={form.issuer} className={errors.issuer && 'border border-red-500'} />
                 {<p className="text-sm text-red-500">{errors.issuer}</p>}
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="mb-1 block">
                     <label htmlFor="date_of_issuance">Date of Issuance:</label>
-                    <Input type="date" className={errors.date_of_issuance && 'border border-red-500'} />
+                    <Input defaultValue={form.date_of_issuance} type="date" className={errors.date_of_issuance && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.date_of_issuance}</p>}
                 </div>
                 <div className="mb-1 block">
                     <label htmlFor="date_of_expiration">Date of Expiration:</label>
-                    <Input type="date" className={errors.date_of_expiration && 'border border-red-500'} />
+                    <Input defaultValue={form.date_of_expiration} type="date" className={errors.date_of_expiration && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.date_of_expiration}</p>}
                 </div>
             </div>
@@ -39,30 +45,35 @@ export default function WorkExperience({ previousStep, errors, processing }: Ste
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="mb-1 block">
                     <label htmlFor="training_name">Training Course:</label>
-                    <Input id="training_name" name="training_name" className={errors.training_name ? 'border border-red-500' : ''} />
+                    <Input
+                        defaultValue={form.training_name}
+                        id="training_name"
+                        name="training_name"
+                        className={errors.training_name ? 'border border-red-500' : ''}
+                    />
                     {errors.training_name && <p className="text-sm text-red-500">{errors.training_name}</p>}
                 </div>
 
                 <div className="mb-1 block">
                     <label htmlFor="institution">Training Institution:</label>
-                    <Input className={errors.institution && 'border border-red-500'} />
+                    <Input defaultValue={form.institution} className={errors.institution && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.institution}</p>}
                 </div>
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div className="mb-1 block">
                     <label htmlFor="certificate">Certificate:</label>
-                    <Input className={errors.certificate && 'border border-red-500'} />
+                    <Input defaultValue={form.certificate} className={errors.certificate && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.certificate}</p>}
                 </div>
                 <div className="mb-1 block">
                     <label htmlFor="date_start">Date Started:</label>
-                    <Input type="date" className={errors.date_start && 'border border-red-500'} />
+                    <Input defaultValue={form.date_start} type="date" className={errors.date_start && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.date_start}</p>}
                 </div>
                 <div className="mb-1 block">
                     <label htmlFor="date_end">Date Ended:</label>
-                    <Input type="date" className={errors.date_end && 'border border-red-500'} />
+                    <Input defaultValue={form.date_end} type="date" className={errors.date_end && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.date_end}</p>}
                 </div>
             </div>
@@ -71,24 +82,24 @@ export default function WorkExperience({ previousStep, errors, processing }: Ste
 
             <div>
                 <label htmlFor="company">Company Name:</label>
-                <Input className={errors.company && 'border border-red-500'} />
+                <Input defaultValue={form.company} className={errors.company && 'border border-red-500'} />
                 {<p className="text-sm text-red-500">{errors.company}</p>}
             </div>
             <div>
                 <label htmlFor="address">Address:</label>
-                <Input className={errors.address && 'border border-red-500'} />
+                <Input defaultValue={form.address} className={errors.address && 'border border-red-500'} />
                 {<p className="text-sm text-red-500">{errors.address}</p>}
             </div>
             <div>
                 <label htmlFor="position">Position:</label>
-                <Input className={errors.position && 'border border-red-500'} />
+                <Input defaultValue={form.position} className={errors.position && 'border border-red-500'} />
                 {<p className="text-sm text-red-500">{errors.position}</p>}
             </div>
             <div className="mb-4 flex flex-col">
                 <label htmlFor="status" className="mb-1">
                     Status:
                 </label>
-                <select id="status" name="status" className="rounded-md border-2 border-blue-800 p-2 text-black">
+                <select defaultValue={form.status} id="status" name="status" className="rounded-md border-2 border-blue-800 p-2 text-black">
                     <option value="">Select...</option>
                     <option value="permanent">Permanent</option>
                     <option value="contractual">Contractual</option>
