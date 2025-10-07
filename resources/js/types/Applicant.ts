@@ -16,9 +16,6 @@ export interface Applicant {
     employment_status?: string;
     employment?: string;
     preferred_job?: string;
-    level?: string;
-    course?: string;
-    year_graduated?: string;
     eligibility_name?: string;
     issuer?: string;
     date_of_issuance?: string;
@@ -34,4 +31,16 @@ export interface Applicant {
     status?: string;
     email?: string;
     id?: number;
+
+    jobPreference?: {
+    employment?: string;
+    preferred_job?: string;
+  };
+
+    level?: string;
+    course?: string;
+    year_graduated?: string;
 }
+
+
+

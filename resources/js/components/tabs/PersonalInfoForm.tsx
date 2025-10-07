@@ -21,7 +21,7 @@ export default function PersonalInfoForm({ form, errors, nextStep }: PersonalInf
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-7">
                 {/* First Name */}
-                <div className="col-span-2">
+                <div className="col-span-2">    
                     <label className="mb-1 block" htmlFor="firstname">
                         First Name:
                     </label>

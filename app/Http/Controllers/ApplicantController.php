@@ -39,10 +39,13 @@ class ApplicantController extends Controller
         $user = User::find($userId);
 
         return Inertia::render('Main', [
-            'applicant' => $applicant,
-            'email' => $user?->email ?? '',  
-            'session_id' => $request->session_id,
-        ]);
+    'applicant' => [
+        ...$applicant->toArray(),
+        'jobPreference' => $applicant->jobPreference?->toArray() ?? null,
+    ],
+    'email' => $user?->email ?? '',  
+    'session_id' => $request->session_id,
+]);
 }
 
 
