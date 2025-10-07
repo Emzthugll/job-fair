@@ -15,7 +15,7 @@ interface JobPreferenceProps extends StepWizardInjectedProps {
 export default function JobPreference({ form, errors, previousStep, nextStep }: JobPreferenceProps) {
     return (
         <div className="space-y-8">
-            <h3 className="text-2xl font-semibold">Job Preference</h3>
+            <h3 className="text-xl font-semibold md:text-2xl">Job Preference</h3>
             <div className="mb-4 flex flex-col">
                 <label htmlFor="employment" className="mb-1">
                     Employment Type:
@@ -44,7 +44,7 @@ export default function JobPreference({ form, errors, previousStep, nextStep }: 
             </div>
 
             {/*  Educational Background */}
-            <h3 className="text-2xl font-semibold">Educational Background</h3>
+            <h3 className="text-xl font-semibold md:text-2xl">Educational Background</h3>
             <div className="mb-4 flex flex-col">
                 <label htmlFor="level" className="mb-1">
                     Highest Attainment:

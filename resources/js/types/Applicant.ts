@@ -33,4 +33,5 @@ export interface Applicant {
     position?: string;
     status?: string;
     email?: string;
+    id?: number;
 }

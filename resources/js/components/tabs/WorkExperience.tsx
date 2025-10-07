@@ -15,8 +15,8 @@ interface WorkExperienceProps extends StepWizardInjectedProps {
 
 export default function WorkExperience({ form, errors, previousStep, processing }: WorkExperienceProps) {
     return (
-        <div className="space-y-4">
-            <h3 className="text-2xl font-semibold">Eligibility/Professional License (Optional)</h3>
+        <div className="space-y-2">
+            <h3 className="text-xl font-semibold md:text-2xl">Eligibility/Professional License (Optional)</h3>
             <div>
                 <label htmlFor="eligibility_name">License or Eligibility Name:</label>
                 <Input defaultValue={form.eligibility_name} className={errors.eligibility_name && 'border border-red-500'} />
@@ -41,7 +41,7 @@ export default function WorkExperience({ form, errors, previousStep, processing 
             </div>
 
             {/* Trainings */}
-            <h3 className="text-2xl font-semibold">Trainings (Optional)</h3>
+            <h3 className="text-xl font-semibold md:text-2xl">Trainings (Optional)</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="mb-1 block">
                     <label htmlFor="training_name">Training Course:</label>
@@ -78,36 +78,39 @@ export default function WorkExperience({ form, errors, previousStep, processing 
                 </div>
             </div>
 
-            <h3 className="text-2xl font-semibold">Work Experience (Optional)</h3>
-
-            <div>
-                <label htmlFor="company">Company Name:</label>
-                <Input defaultValue={form.company} className={errors.company && 'border border-red-500'} />
-                {<p className="text-sm text-red-500">{errors.company}</p>}
+            <h3 className="text-xl font-semibold md:text-2xl">Work Experience (Optional)</h3>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="mb-1 block">
+                    <label htmlFor="company">Company Name:</label>
+                    <Input defaultValue={form.company} className={errors.company && 'border border-red-500'} />
+                    {<p className="text-sm text-red-500">{errors.company}</p>}
+                </div>
+                <div className="mb-1 block">
+                    <label htmlFor="address">Address:</label>
+                    <Input defaultValue={form.address} className={errors.address && 'border border-red-500'} />
+                    {<p className="text-sm text-red-500">{errors.address}</p>}
+                </div>
             </div>
-            <div>
-                <label htmlFor="address">Address:</label>
-                <Input defaultValue={form.address} className={errors.address && 'border border-red-500'} />
-                {<p className="text-sm text-red-500">{errors.address}</p>}
-            </div>
-            <div>
-                <label htmlFor="position">Position:</label>
-                <Input defaultValue={form.position} className={errors.position && 'border border-red-500'} />
-                {<p className="text-sm text-red-500">{errors.position}</p>}
-            </div>
-            <div className="mb-4 flex flex-col">
-                <label htmlFor="status" className="mb-1">
-                    Status:
-                </label>
-                <select defaultValue={form.status} id="status" name="status" className="rounded-md border-2 border-blue-800 p-2 text-black">
-                    <option value="">Select...</option>
-                    <option value="permanent">Permanent</option>
-                    <option value="contractual">Contractual</option>
-                    <option value="part time">Part time</option>
-                    <option value="resigned">Resigned</option>
-                    <option value="terminated">Terminated</option>
-                </select>
-                {<p className="text-sm text-red-500">{errors.status}</p>}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="mb-1 block">
+                    <label htmlFor="position">Position:</label>
+                    <Input defaultValue={form.position} className={errors.position && 'border border-red-500'} />
+                    {<p className="text-sm text-red-500">{errors.position}</p>}
+                </div>
+                <div className="mb-4 flex flex-col">
+                    <label htmlFor="status" className="mb-1">
+                        Status:
+                    </label>
+                    <select defaultValue={form.status} id="status" name="status" className="rounded-md border-2 border-blue-800 p-2 text-black">
+                        <option value="">Select...</option>
+                        <option value="permanent">Permanent</option>
+                        <option value="contractual">Contractual</option>
+                        <option value="part time">Part time</option>
+                        <option value="resigned">Resigned</option>
+                        <option value="terminated">Terminated</option>
+                    </select>
+                    {<p className="text-sm text-red-500">{errors.status}</p>}
+                </div>
             </div>
 
             <div className="mt-4 flex justify-between">

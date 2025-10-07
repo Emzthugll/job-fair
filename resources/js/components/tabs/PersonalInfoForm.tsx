@@ -16,8 +16,8 @@ interface PersonalInfoFormProps extends StepWizardInjectedProps {
 
 export default function PersonalInfoForm({ form, errors, nextStep }: PersonalInfoFormProps) {
     return (
-        <div className="space-y-4">
-            <h3 className="mb-2 text-2xl font-semibold">Personal Information</h3>
+        <div className="space-y-7">
+            <h3 className=" mb-2 text-xl font-semibold md:text-2xl">Personal Information</h3>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-7">
                 {/* First Name */}
@@ -58,7 +58,7 @@ export default function PersonalInfoForm({ form, errors, nextStep }: PersonalInf
                 </div>
 
                 {/* Suffix (smaller column) */}
-                <div className="col-span-1">
+                <div className="col-span-2">
                     <label className="mb-1 block" htmlFor="suffix">
                         Suffix:
                     </label>
