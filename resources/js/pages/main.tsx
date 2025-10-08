@@ -18,16 +18,14 @@ interface MainProps {
 
 export default function Main({ applicant, email, session_id, errors = {} }: MainProps) {
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [showQr, setShowQr] = useState(false);
+    const [showQr] = useState(false);
 
     const initialForm: Applicant = {
         ...applicant,
         email: email || '',
     };
 
-    interface PageProps {
-        applicant: Applicant;
-    }
+   
 
     console.log('initialForm:', initialForm);
 
@@ -40,7 +38,7 @@ export default function Main({ applicant, email, session_id, errors = {} }: Main
                     method="post"
                     data={initialForm as any}
                     resetOnSuccess
-                    onSuccess={(page: any) => {
+                    onSuccess={() => {
                         setIsSubmitted(true);
                     }}
                 >
