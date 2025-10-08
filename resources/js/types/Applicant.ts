@@ -37,9 +37,11 @@ export interface Applicant {
     preferred_job?: string;
   };
 
+    highestEducation?: {
     level?: string;
     course?: string;
     year_graduated?: string;
+};
 }
 
 

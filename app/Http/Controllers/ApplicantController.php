@@ -32,7 +32,7 @@ class ApplicantController extends Controller
             'jobPreference',
             'eligibilities',
             'trainings',
-            'educationalBackgrounds',
+            'highestEducation',
         ])->firstOrNew(['user_id' => $userId]);
 
         // Fetch user via Eloquent
@@ -42,6 +42,7 @@ class ApplicantController extends Controller
     'applicant' => [
         ...$applicant->toArray(),
         'jobPreference' => $applicant->jobPreference?->toArray() ?? null,
+        'highestEducation' => $applicant->highestEducation?->toArray() ?? null,
     ],
     'email' => $user?->email ?? '',  
     'session_id' => $request->session_id,
@@ -119,6 +120,9 @@ class ApplicantController extends Controller
             'suffix' => $validated['suffix'] ?? null,
             'birthday' => $validated['birthday'],
             'sex' => $validated['sex'],
+            'disability' => $validated['disability'] ?? null,
+            'religion' => $validated['religion'],
+            'tin_number' => $validated['tin_number'],
             'civil_status' => $validated['civil_status'],
             'current_barangay' => $validated['current_barangay'],
             'current_city' => $validated['current_city'],
@@ -137,15 +141,21 @@ class ApplicantController extends Controller
         ]
     );
 
-    // Educational Background
-    ApplicantProfileEducationalBackground::updateOrCreate(
-        ['applicant_profile_id' => $applicant->id],
-        [
-            'level' => $validated['level'],
-            'course' => $validated['course'] ?? null,
-            'year_graduated' => $validated['year_graduated'] ?? null,
-        ]
-    );
+    // Educational Background(highest attainment only)
+    if (!empty($validated['level'])) {
+        ApplicantProfileEducationalBackground::UpdateOrCreate(
+            [
+                'applicant_profile_id' => $applicant->id,
+                'level' => $validated['level'],
+            ],
+            [
+                'course' => $validated['course'] ?? null,
+                'year_graduated' => $validated['year_graduated'] ?? null,
+            ]
+            );
+    }
+    
+
 
     // Eligibility
     ApplicantProfileEligibility::updateOrCreate(

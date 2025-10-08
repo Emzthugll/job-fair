@@ -30,7 +30,13 @@ class ApplicantProfile extends Model
     // Educational Backgrounds
     public function educationalBackgrounds()
     {
-    return $this->hasMany(ApplicantProfileEducationalBackground::class, 'applicant_profile_id');
+        return $this->hasMany(ApplicantProfileEducationalBackground::class, 'applicant_profile_id');
+    }
+    //highest attainment
+    public function highestEducation()
+    {
+       return $this->hasOne(ApplicantProfileEducationalBackground::class, 'applicant_profile_id')
+                    ->ofMany('level', 'max'); 
     }
 
 

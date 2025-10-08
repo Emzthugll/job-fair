@@ -19,19 +19,22 @@ class QrCodeController extends Controller
 
         // Generate QR code if not exists
         if (!Storage::exists($filePath)) {
-            QrCode::format('png')   
+            QrCode::format('png')
                 ->size(300)
                 ->backgroundColor(168, 151, 164)
                 ->generate($id, storage_path("app/{$filePath}"));
         }
 
-        // Read the SVG from storage
+        // Get the PNG content
         $qrCode = Storage::get($filePath);
 
-        // Load into PDF view
+        // Encode PNG to base64 so DomPDF can render it
+        $qrBase64 = 'data:image/png;base64,' . base64_encode($qrCode);
+
+        // Load the PDF view
         $pdf = Pdf::loadView('pdf.qr', [
-            'qrCode' => $qrCode,
-            'id'     => $id
+            'qrUrl' => $qrBase64,
+            'id'    => $id,
         ]);
 
         // Force download

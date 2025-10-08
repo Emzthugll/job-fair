@@ -50,7 +50,7 @@
                         Highest Attainment:
                     </label>
                     <select
-                        defaultValue={form.level || ''}
+                        defaultValue={form.highestEducation?.level || ''}
                         id="level"
                         name="level"
                         className={`w-full rounded-md border-2 border-blue-800 p-2 text-black ${errors.level ? 'border-2 border-red-500' : ''}`}
@@ -66,12 +66,12 @@
                 </div>
                 <div>
                     <label htmlFor="course">Course/Strand:</label>
-                    <Input defaultValue={form.course} className={errors.course && 'border border-red-500'} />
+                    <Input name='course' defaultValue={form.highestEducation?.course || ''} className={errors.course && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.course}</p>}
                 </div>
                 <div className="mb-10">
                     <label htmlFor="year_graduated">Year Graduated:</label>
-                    <Input defaultValue={form.year_graduated} type="number" className={errors.year_graduated && 'border border-red-500'} />
+                    <Input name='year_graduated' defaultValue={form.highestEducation?.year_graduated || ''} type="number" className={errors.year_graduated && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.year_graduated}</p>}
                 </div>
 

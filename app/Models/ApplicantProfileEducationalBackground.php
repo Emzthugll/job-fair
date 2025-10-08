@@ -14,8 +14,7 @@ class ApplicantProfileEducationalBackground extends Model
     protected $fillable = [
         'applicant_profile_id',
         'level',        
-        'course',       
-        'school',       
+        'course',             
         'year_graduated',
     ];
 
