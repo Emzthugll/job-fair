@@ -46,6 +46,10 @@ export default function Main({ applicant, email, session_id, errors = {} }: Main
                 >
                     <input type="hidden" name="session_id" value={session_id} />
 
+                    {/* Logo on top */}
+             <div className="flex justify-center py-4">
+             <img src="/images/work.png" alt="Logo" className="h-16 w-auto" />
+             </div>
                     {/* step container */}
                     <div className="w-full p-4 sm:p-6">
                         <StepWizard

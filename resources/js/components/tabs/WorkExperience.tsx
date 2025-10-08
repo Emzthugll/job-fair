@@ -19,23 +19,23 @@ export default function WorkExperience({ form, errors, previousStep, processing 
             <h3 className="text-xl font-semibold md:text-2xl">Eligibility/Professional License (Optional)</h3>
             <div>
                 <label htmlFor="eligibility_name">License or Eligibility Name:</label>
-                <Input defaultValue={form.eligibility_name} className={errors.eligibility_name && 'border border-red-500'} />
+                <Input id='eligibility_name' name='eligibility_name' defaultValue={form.eligibility?.name || ''} className={errors.eligibility_name && 'border border-red-500'} />
                 {<p className="text-sm text-red-500">{errors.eligibility_name}</p>}
             </div>
             <div>
                 <label htmlFor="issuer">Issuing Organization:</label>
-                <Input defaultValue={form.issuer} className={errors.issuer && 'border border-red-500'} />
+                <Input id='issuer' name='issuer' defaultValue={form.eligibility?.issuer || ''} className={errors.issuer && 'border border-red-500'} />
                 {<p className="text-sm text-red-500">{errors.issuer}</p>}
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="mb-1 block">
                     <label htmlFor="date_of_issuance">Date of Issuance:</label>
-                    <Input defaultValue={form.date_of_issuance} type="date" className={errors.date_of_issuance && 'border border-red-500'} />
+                    <Input id='date_of_issuance' name='date_of_issuance' defaultValue={form.eligibility?.date_of_issuance || ''} type="date" className={errors.date_of_issuance && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.date_of_issuance}</p>}
                 </div>
                 <div className="mb-1 block">
                     <label htmlFor="date_of_expiration">Date of Expiration:</label>
-                    <Input defaultValue={form.date_of_expiration} type="date" className={errors.date_of_expiration && 'border border-red-500'} />
+                    <Input id='date_of_expiration' name='date_of_expiration' defaultValue={form.eligibility?.date_of_expiration || ''} type="date" className={errors.date_of_expiration && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.date_of_expiration}</p>}
                 </div>
             </div>

@@ -43,6 +43,7 @@ class ApplicantController extends Controller
         ...$applicant->toArray(),
         'jobPreference' => $applicant->jobPreference?->toArray() ?? null,
         'highestEducation' => $applicant->highestEducation?->toArray() ?? null,
+        'eligibility' => $applicant->eligibilities->first()?->toArray() ?? null,
     ],
     'email' => $user?->email ?? '',  
     'session_id' => $request->session_id,
@@ -85,10 +86,13 @@ class ApplicantController extends Controller
         'year_graduated' => 'nullable|digits:4',
 
         // Eligibility
-        'eligibility_name' => 'nullable|string',
-        'issuer' => 'nullable|string',
-        'date_of_issuance' => 'nullable|date',
+        'eligibility_name' => 'required_with:issuer,date_of_issuance|string|max:255',
+        'issuer' => 'required_with:eligibility_name,date_of_issuance|string|max:255',
+        'date_of_issuance' => 'required_with:eligibility_name,issuer|date',
         'date_of_expiration' => 'nullable|date',
+
+
+
 
         // Trainings
         'training_name' => 'nullable|string',
@@ -157,16 +161,25 @@ class ApplicantController extends Controller
     
 
 
-    // Eligibility
-    ApplicantProfileEligibility::updateOrCreate(
-        ['applicant_profile_id' => $applicant->id],
-        [
-            'name' => $validated['eligibility_name'] ?? null, 
-            'issuer' => $validated['issuer'] ?? null,
-            'date_of_issuance' => $validated['date_of_issuance'] ?? null,
-            'date_of_expiration' => $validated['date_of_expiration'] ?? null,
-        ]
-    );
+    
+    // Eligibility 
+if (!empty($validated['eligibility_name']) || !empty($validated['issuer']) || !empty($validated['date_of_issuance'])) {
+    $eligibility = ApplicantProfileEligibility::firstOrNew([
+        'applicant_profile_id' => $applicant->id,
+    ]);
+
+    $eligibility->name = trim($validated['eligibility_name']); // ensure no whitespace
+    $eligibility->issuer = $validated['issuer'] ?? null;
+    $eligibility->date_of_issuance = $validated['date_of_issuance'] ?? null;
+    $eligibility->date_of_expiration = $validated['date_of_expiration'] ?? null;
+
+    $eligibility->save();
+}
+
+
+
+
+
 
     // Trainings
     if (!empty($validated['training_name']) && !empty($validated['date_start'])) {

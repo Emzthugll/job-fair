@@ -16,10 +16,6 @@ export interface Applicant {
     employment_status?: string;
     employment?: string;
     preferred_job?: string;
-    eligibility_name?: string;
-    issuer?: string;
-    date_of_issuance?: string;
-    date_of_expiration?: string;
     training_name?: string;
     institution?: string;
     certificate?: string;
@@ -42,7 +38,14 @@ export interface Applicant {
     course?: string;
     year_graduated?: string;
 };
+
+    eligibility?: {
+      name?: string;
+      issuer?: string;
+      date_of_issuance?: string;
+      date_of_expiration?: string;
+
+};
+
+
 }
-
-
-
