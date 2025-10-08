@@ -1,12 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\QrCodeController;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 
 
 // Route to display the applicant form 
@@ -23,5 +20,5 @@ Route::get('/qr/download/{id}', [QrCodeController::class, 'download'])->name('qr
 
 
 require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+
 
