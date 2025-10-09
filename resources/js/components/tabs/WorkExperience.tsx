@@ -46,7 +46,7 @@ export default function WorkExperience({ form, errors, previousStep, processing 
                 <div className="mb-1 block">
                     <label htmlFor="training_name">Training Course:</label>
                     <Input
-                        defaultValue={form.training_name}
+                        defaultValue={form.training?.name || ''}
                         id="training_name"
                         name="training_name"
                         className={errors.training_name ? 'border border-red-500' : ''}
@@ -56,28 +56,28 @@ export default function WorkExperience({ form, errors, previousStep, processing 
 
                 <div className="mb-1 block">
                     <label htmlFor="institution">Training Institution:</label>
-                    <Input defaultValue={form.institution} className={errors.institution && 'border border-red-500'} />
+                    <Input defaultValue={form.training?.institution || ''} className={errors.institution && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.institution}</p>}
                 </div>
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div className="mb-1 block">
                     <label htmlFor="certificate">Certificate:</label>
-                    <Input defaultValue={form.certificate} className={errors.certificate && 'border border-red-500'} />
+                    <Input defaultValue={form.training?.certificate || ''} className={errors.certificate && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.certificate}</p>}
                 </div>
                 <div className="mb-1 block">
                     <label htmlFor="date_start">Date Started:</label>
-                    <Input defaultValue={form.date_start} type="date" className={errors.date_start && 'border border-red-500'} />
+                    <Input defaultValue={form.training?.date_start || ''} type="date" className={errors.date_start && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.date_start}</p>}
                 </div>
                 <div className="mb-1 block">
                     <label htmlFor="date_end">Date Ended:</label>
-                    <Input defaultValue={form.date_end} type="date" className={errors.date_end && 'border border-red-500'} />
+                    <Input defaultValue={form.training?.date_end || ''} type="date" className={errors.date_end && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.date_end}</p>}
                 </div>
             </div>
-
+            {/* Work Experience */}
             <h3 className="text-xl font-semibold md:text-2xl">Work Experience (Optional)</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="mb-1 block">

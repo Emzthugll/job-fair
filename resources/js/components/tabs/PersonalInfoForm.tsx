@@ -58,7 +58,7 @@ export default function PersonalInfoForm({ form, errors, nextStep }: PersonalInf
                 </div>
 
                 {/* Suffix (smaller column) */}
-                <div className="col-span-2">
+                <div className="col-span-1">
                     <label className="mb-1 block" htmlFor="suffix">
                         Suffix:
                     </label>
@@ -66,7 +66,7 @@ export default function PersonalInfoForm({ form, errors, nextStep }: PersonalInf
                         defaultValue={form.suffix}
                         id="suffix"
                         name="suffix"
-                        className={`text-sm ${errors.suffix ? 'border-2 border-red-500' : ''}`}
+                        className={` ${errors.suffix ? 'border-2 border-red-500' : ''}`}
                     />
                     {errors.suffix && <p className="text-sm text-red-500">{errors.suffix}</p>}
                 </div>

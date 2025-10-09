@@ -14,13 +14,6 @@ export interface Applicant {
     disability?: string;
     contact_number?: string;
     employment_status?: string;
-    employment?: string;
-    preferred_job?: string;
-    training_name?: string;
-    institution?: string;
-    certificate?: string;
-    date_start?: string;
-    date_end?: string;
     company?: string;
     address?: string;
     position?: string;
@@ -44,8 +37,17 @@ export interface Applicant {
       issuer?: string;
       date_of_issuance?: string;
       date_of_expiration?: string;
-
 };
+
+    training?: {
+  name?: string;
+  institution?: string;
+  certificate?: string;
+  date_start?: string;
+  date_end?: string;
+};
+
+
 
 
 }

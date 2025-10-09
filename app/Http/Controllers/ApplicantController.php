@@ -44,6 +44,7 @@ class ApplicantController extends Controller
         'jobPreference' => $applicant->jobPreference?->toArray() ?? null,
         'highestEducation' => $applicant->highestEducation?->toArray() ?? null,
         'eligibility' => $applicant->eligibilities->first()?->toArray() ?? null,
+        'training' => $applicant->trainings->first()?->toArray() ?? null,
     ],
     'email' => $user?->email ?? '',  
     'session_id' => $request->session_id,
@@ -168,7 +169,7 @@ if (!empty($validated['eligibility_name']) || !empty($validated['issuer']) || !e
         'applicant_profile_id' => $applicant->id,
     ]);
 
-    $eligibility->name = trim($validated['eligibility_name']); // ensure no whitespace
+    $eligibility->name = trim($validated['eligibility_name']); 
     $eligibility->issuer = $validated['issuer'] ?? null;
     $eligibility->date_of_issuance = $validated['date_of_issuance'] ?? null;
     $eligibility->date_of_expiration = $validated['date_of_expiration'] ?? null;
@@ -179,14 +180,12 @@ if (!empty($validated['eligibility_name']) || !empty($validated['issuer']) || !e
 
 
 
-
-
     // Trainings
     if (!empty($validated['training_name']) && !empty($validated['date_start'])) {
         ApplicantProfileTraining::updateOrCreate(
             ['applicant_profile_id' => $applicant->id],
             [
-                'training_name' => $validated['training_name'],
+                'name' => $validated['training_name'],
                 'institution' => $validated['institution'] ?? null,
                 'certificate' => $validated['certificate'] ?? null,
                 'date_start' => $validated['date_start'],
