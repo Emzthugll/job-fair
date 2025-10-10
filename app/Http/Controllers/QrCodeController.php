@@ -2,42 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Storage;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Storage;
 
 class QrCodeController extends Controller
 {
     public function download($id)
     {
-        $filePath = "public/qrcodes/qr_{$id}.png";
+        try {
+            $directory = 'public/qrcodes';
+            if (!Storage::exists($directory)) {
+                Storage::makeDirectory($directory);
+            }
 
-        // Create directory if missing
-        if (!Storage::exists('public/qrcodes')) {
-            Storage::makeDirectory('public/qrcodes');
-        }
+            $filePath = "{$directory}/qr_{$id}.png";
 
-        // Generate QR code if not exists
-        if (!Storage::exists($filePath)) {
-            QrCode::format('png')
+            // Generate QR code 
+            $qrPng = QrCode::format('png')
                 ->size(300)
-                ->backgroundColor(168, 151, 164)
-                ->generate($id, storage_path("app/{$filePath}"));
+                ->color(0, 0, 0)           
+                ->backgroundColor(255, 255, 255) 
+                ->generate($id);
+
+            // Save PNG to storage 
+            Storage::put($filePath, $qrPng);
+
+            // Encode PNG as base64 for DomPDF
+            $qrBase64 = base64_encode($qrPng);
+
+            $pdf = Pdf::loadView('pdf.qr', [
+                'id' => $id,
+                'qrBase64' => $qrBase64, 
+            ]);
+
+            return $pdf->download("Applicant_QR_{$id}.pdf");
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'line' => $e->getLine(),
+            ]);
         }
-
-        // Get the PNG content
-        $qrCode = Storage::get($filePath);
-
-        // Encode PNG to base64 so DomPDF can render it
-        $qrBase64 = 'data:image/png;base64,' . base64_encode($qrCode);
-
-        // Load the PDF view
-        $pdf = Pdf::loadView('pdf.qr', [
-            'qrUrl' => $qrBase64,
-            'id'    => $id,
-        ]);
-
-        // Force download
-        return $pdf->download("qr_applicant_{$id}.pdf");
     }
 }

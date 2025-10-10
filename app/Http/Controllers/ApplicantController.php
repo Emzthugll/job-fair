@@ -160,8 +160,6 @@ class ApplicantController extends Controller
             );
     }
     
-
-
     
     // Eligibility 
 if (!empty($validated['eligibility_name']) || !empty($validated['issuer']) || !empty($validated['date_of_issuance'])) {
@@ -178,21 +176,25 @@ if (!empty($validated['eligibility_name']) || !empty($validated['issuer']) || !e
 }
 
 
+// Trainings
+if (!empty($validated['training_name']) || !empty($validated['date_start'])) {
+
+    // Get existing training for this applicant, or create new
+    $training = ApplicantProfileTraining::firstOrNew([
+        'applicant_profile_id' => $applicant->id,
+    ]);
+
+    $training->name = trim($validated['training_name'] ?? $training->name);
+    $training->institution = $validated['institution'] ?? $training->institution;
+    $training->certificate = $validated['certificate'] ?? $training->certificate;
+    $training->date_start = $validated['date_start'] ?? $training->date_start;
+    $training->date_end = $validated['date_end'] ?? $training->date_end;
+
+    $training->save();
+}
 
 
-    // Trainings
-    if (!empty($validated['training_name']) && !empty($validated['date_start'])) {
-        ApplicantProfileTraining::updateOrCreate(
-            ['applicant_profile_id' => $applicant->id],
-            [
-                'name' => $validated['training_name'],
-                'institution' => $validated['institution'] ?? null,
-                'certificate' => $validated['certificate'] ?? null,
-                'date_start' => $validated['date_start'],
-                'date_end' => $validated['date_end'] ?? null,
-            ]
-        );
-    }
+
     
 
     return redirect()->back()->with('success', 'Applicant profile updated successfully!');

@@ -13,7 +13,7 @@ class ApplicantProfileTraining extends Model
 
     protected $fillable = [
         'applicant_profile_id',
-        'training_name',
+        'name',
         'institution',
         'certificate',
         'date_start',
