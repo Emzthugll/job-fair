@@ -29,6 +29,7 @@ export interface Applicant {
     highestEducation?: {
     level?: string;
     course?: string;
+    school?: string;
     year_graduated?: string;
 };
 
@@ -47,7 +48,13 @@ export interface Applicant {
   date_end?: string;
 };
 
-
-
+    workExperience?: {
+  company?: string;
+  position?: string;
+ address?: string;
+ date_started?: string;
+  date_ended?: string;
+ status?: string;
+};
 
 }

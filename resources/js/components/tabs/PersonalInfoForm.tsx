@@ -1,11 +1,12 @@
 import { Input } from '@/components/ui/input';
 import { Applicant } from '@/types/Applicant';
+import { useState } from 'react';
+import React from 'react';
 
 // StepWizard navigation props
 interface StepWizardInjectedProps {
     nextStep?: () => void;
-    previousStep?: () => void;
-    goToStep?: (step: number) => void;
+    
 }
 
 // Props for this component
@@ -14,7 +15,16 @@ interface PersonalInfoFormProps extends StepWizardInjectedProps {
     errors: Record<string, string>;
 }
 
-export default function PersonalInfoForm({ form, errors, nextStep }: PersonalInfoFormProps) {
+export default function PersonalInfoForm({ form: initialForm, errors, nextStep }: PersonalInfoFormProps) {
+    const [form, setForm] = useState<Applicant>(initialForm);
+
+    // Helper to update any field easily
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+    };
+
+
     return (
         <div className="space-y-7">
             <h3 className=" mb-2 text-xl font-semibold md:text-2xl">Personal Information</h3>
@@ -94,7 +104,8 @@ export default function PersonalInfoForm({ form, errors, nextStep }: PersonalInf
                         Sex:
                     </label>
                     <select
-                        defaultValue={form.sex}
+                        value={form.sex || ''}
+                    onChange={handleChange}
                         id="sex"
                         name="sex"
                         className={`w-full rounded-md border-2 border-blue-800 p-2 text-black md:w-auto md:pr-13 ${errors.sex ? 'border-2 border-red-500' : ''}`}
@@ -102,7 +113,6 @@ export default function PersonalInfoForm({ form, errors, nextStep }: PersonalInf
                         <option value="">Select...</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
-                        <option value="other">Other</option>
                     </select>
                     {errors.sex && <p className="text-sm text-red-500">{errors.sex}</p>}
                 </div>
@@ -113,7 +123,8 @@ export default function PersonalInfoForm({ form, errors, nextStep }: PersonalInf
                         Disability:
                     </label>
                     <select
-                        defaultValue={form.disability}
+                        value={form.disability || ''}
+                        onChange={handleChange}
                         id="disability"
                         name="disability"
                         className={`w-full rounded-md border-2 border-blue-800 p-2 text-black md:w-auto md:pr-11 ${
@@ -142,25 +153,29 @@ export default function PersonalInfoForm({ form, errors, nextStep }: PersonalInf
                 </div>
 
                 {/* Civil Status */}
-                <div>
-                    <label className="mb-1 block" htmlFor="civil_status">
-                        Civil Status:
-                    </label>
-                    <select
-                        defaultValue={form.civil_status}
-                        id="civil_status"
-                        name="civil_status"
-                        className={`w-full rounded-md border-2 border-blue-800 p-2 text-black md:pr-11 ${
-                            errors.civil_status ? 'border-2 border-red-500' : ''
-                        }`}
-                    >
-                        <option value="">Select...</option>
-                        <option value="single">Single</option>
-                        <option value="married">Married</option>
-                        <option value="widowed">Widowed</option>
-                    </select>
-                    {errors.civil_status && <p className="text-sm text-red-500">{errors.civil_status}</p>}
-                </div>
+            <div>
+         <label className="mb-1 block" htmlFor="civil_status">
+                 Civil Status:
+        </label>
+    <select
+        value={form.civil_status || ''}
+        onChange={handleChange}
+        id="civil_status"
+        name="civil_status"
+        className={`w-full rounded-md border-2 border-blue-800 p-2 text-black md:pr-11 ${
+            errors.civil_status ? 'border-2 border-red-500' : ''
+        }`}
+    >
+        <option value="">Select...</option>
+        <option value="single">Single</option>
+        <option value="married">Married</option>
+        <option value="widowed">Widowed</option>
+        <option value="separated">Separated</option>
+        <option value="leave-in">Leave-In</option>
+    </select>
+    {errors.civil_status && <p className="text-sm text-red-500">{errors.civil_status}</p>}
+</div>
+
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -261,7 +276,8 @@ export default function PersonalInfoForm({ form, errors, nextStep }: PersonalInf
                         Employment Status:
                     </label>
                     <select
-                        defaultValue={form.employment_status}
+                        value={form.employment_status || ''}
+                        onChange={handleChange}
                         id="employment_status"
                         name="employment_status"
                         className={`w-full rounded-md border-2 border-blue-800 p-2 text-black ${
@@ -269,8 +285,14 @@ export default function PersonalInfoForm({ form, errors, nextStep }: PersonalInf
                         }`}
                     >
                         <option value="">Select...</option>
-                        <option value="employed">Employed</option>
-                        <option value="unemployed">Unemployed</option>
+                        <option value="Wage Employed">Wage Employed</option>
+                        <option value="Self Employed">Self Employed</option>
+                        <option value="New Entrant/Fresh Graduate">New Entrant/Fresh Graduate</option>
+                        <option value="Finish Contract">Finish Contract</option>
+                        <option value="Resigned">Resigned</option>
+                        <option value="Retired">Retired</option>
+                        <option value="Terminated/Laid Off(Local)">Terminated/Laid Off(Local)</option>
+                        <option value="Terminated/Laid Off(Abroad)">Terminated/Laid Off(Abroad)</option>
                     </select>
                     {errors.employment_status && <p className="text-sm text-red-500">{errors.employment_status}</p>}
                 </div>
@@ -285,4 +307,4 @@ export default function PersonalInfoForm({ form, errors, nextStep }: PersonalInf
             </div>
         </div>
     );
-}
+    }

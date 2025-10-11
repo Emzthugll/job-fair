@@ -13,7 +13,7 @@ class ApplicantProfileEligibility extends Model
 
     protected $fillable = [
         'applicant_profile_id',
-        'eligibility_name',
+        'name',
         'issuer',
         'date_of_issuance',
         'date_of_expiration'

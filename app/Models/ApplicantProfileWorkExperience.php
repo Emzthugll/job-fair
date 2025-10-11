@@ -9,18 +9,20 @@ class ApplicantProfileWorkExperience extends Model
 {
     use HasFactory;
 
-    protected $table = 'applicant_profile_work_experience';
+    protected $table = 'applicant_profile_work_experiences';
 
     protected $fillable = [
-        'applicant_profile_id',
+        'personal_profile_id',
         'company',
         'address',
+        'date_started',
+        'date_ended',
         'position',
         'status'
     ];
 
     public function applicantProfile()
     {
-        return $this->belongsTo(ApplicantProfile::class, 'applicant_profile_id');
+        return $this->belongsTo(ApplicantProfile::class, 'personal_profile_id');
     }
 }

@@ -9,12 +9,13 @@ class ApplicantProfileEducationalBackground extends Model
 {
     use HasFactory;
 
-    protected $table = 'applicant_profile_educational_backgrounds'; 
+    protected $table = 'applicant_profile_educational_backgrounds';
 
     protected $fillable = [
         'applicant_profile_id',
-        'level',        
-        'course',             
+        'level',
+        'course',
+        'school',
         'year_graduated',
     ];
 

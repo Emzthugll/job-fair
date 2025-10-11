@@ -49,7 +49,7 @@ class ApplicantProfile extends Model
     // Work Experience
     public function workExperiences()
     {
-        return $this->hasMany(ApplicantProfileWorkExperience::class, 'applicant_profile_id');
+        return $this->hasMany(ApplicantProfileWorkExperience::class, 'personal_profile_id');
     }
 
     // Relation to user

@@ -66,12 +66,17 @@
                 </div>
                 <div>
                     <label htmlFor="course">Course/Strand:</label>
-                    <Input name='course' defaultValue={form.highestEducation?.course || ''} className={errors.course && 'border border-red-500'} />
+                    <Input id='course' name='course' defaultValue={form.highestEducation?.course || ''} className={errors.course && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.course}</p>}
+                </div>
+                <div>
+                    <label htmlFor="school">School:</label>
+                    <Input id='school' name='school' defaultValue={form.highestEducation?.school || ''} className={errors.school && 'border border-red-500'} />
+                    {<p className="text-sm text-red-500">{errors.school}</p>}
                 </div>
                 <div className="mb-10">
                     <label htmlFor="year_graduated">Year Graduated:</label>
-                    <Input name='year_graduated' defaultValue={form.highestEducation?.year_graduated || ''} type="number" className={errors.year_graduated && 'border border-red-500'} />
+                    <Input id='year_graduated' name='year_graduated' defaultValue={form.highestEducation?.year_graduated || ''} type="number" className={errors.year_graduated && 'border border-red-500'} />
                     {<p className="text-sm text-red-500">{errors.year_graduated}</p>}
                 </div>
 
