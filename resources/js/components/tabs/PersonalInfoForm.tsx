@@ -1,12 +1,9 @@
 import { Input } from '@/components/ui/input';
 import { Applicant } from '@/types/Applicant';
-import { useState } from 'react';
-import React from 'react';
 
 // StepWizard navigation props
 interface StepWizardInjectedProps {
     nextStep?: () => void;
-    
 }
 
 // Props for this component
@@ -15,23 +12,14 @@ interface PersonalInfoFormProps extends StepWizardInjectedProps {
     errors: Record<string, string>;
 }
 
-export default function PersonalInfoForm({ form: initialForm, errors, nextStep }: PersonalInfoFormProps) {
-    const [form, setForm] = useState<Applicant>(initialForm);
-
-    // Helper to update any field easily
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
-    };
-
-
+export default function PersonalInfoForm({ form, errors, nextStep }: PersonalInfoFormProps) {
     return (
         <div className="space-y-7">
-            <h3 className=" mb-2 text-xl font-semibold md:text-2xl">Personal Information</h3>
+            <h3 className="mb-2 text-xl font-semibold md:text-2xl">Personal Information</h3>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-7">
                 {/* First Name */}
-                <div className="col-span-2">    
+                <div className="col-span-2">
                     <label className="mb-1 block" htmlFor="firstname">
                         First Name:
                     </label>
@@ -63,17 +51,22 @@ export default function PersonalInfoForm({ form: initialForm, errors, nextStep }
                     <label className="mb-1 block" htmlFor="surname">
                         Last Name:
                     </label>
-                    <Input defaultValue={form.surname} id="surname" name="surname" className={errors.surname ? 'border-2 border-red-500' : ''} />
+                    <Input
+                        defaultValue={form.surname || ''}
+                        id="surname"
+                        name="surname"
+                        className={errors.surname ? 'border-2 border-red-500' : ''}
+                    />
                     {errors.surname && <p className="text-sm text-red-500">{errors.surname}</p>}
                 </div>
 
-                {/* Suffix (smaller column) */}
+                {/* Suffix  */}
                 <div className="col-span-1">
                     <label className="mb-1 block" htmlFor="suffix">
                         Suffix:
                     </label>
                     <Input
-                        defaultValue={form.suffix}
+                        defaultValue={form.suffix || ''}
                         id="suffix"
                         name="suffix"
                         className={` ${errors.suffix ? 'border-2 border-red-500' : ''}`}
@@ -89,7 +82,7 @@ export default function PersonalInfoForm({ form: initialForm, errors, nextStep }
                         Date of Birth:
                     </label>
                     <Input
-                        defaultValue={form.birthday}
+                        defaultValue={form.birthday || ''}
                         id="birthday"
                         name="birthday"
                         type="date"
@@ -104,8 +97,7 @@ export default function PersonalInfoForm({ form: initialForm, errors, nextStep }
                         Sex:
                     </label>
                     <select
-                        value={form.sex || ''}
-                    onChange={handleChange}
+                        defaultValue={form.sex || ''}
                         id="sex"
                         name="sex"
                         className={`w-full rounded-md border-2 border-blue-800 p-2 text-black md:w-auto md:pr-13 ${errors.sex ? 'border-2 border-red-500' : ''}`}
@@ -123,8 +115,7 @@ export default function PersonalInfoForm({ form: initialForm, errors, nextStep }
                         Disability:
                     </label>
                     <select
-                        value={form.disability || ''}
-                        onChange={handleChange}
+                        defaultValue={form.disability || ''}
                         id="disability"
                         name="disability"
                         className={`w-full rounded-md border-2 border-blue-800 p-2 text-black md:w-auto md:pr-11 ${
@@ -148,34 +139,37 @@ export default function PersonalInfoForm({ form: initialForm, errors, nextStep }
                     <label className="mb-1 block" htmlFor="religion">
                         Religion:
                     </label>
-                    <Input defaultValue={form.religion} id="religion" name="religion" className={errors.religion ? 'border-2 border-red-500' : ''} />
+                    <Input
+                        defaultValue={form.religion || ''}
+                        id="religion"
+                        name="religion"
+                        className={errors.religion ? 'border-2 border-red-500' : ''}
+                    />
                     {errors.religion && <p className="text-sm text-red-500">{errors.religion}</p>}
                 </div>
 
                 {/* Civil Status */}
-            <div>
-         <label className="mb-1 block" htmlFor="civil_status">
-                 Civil Status:
-        </label>
-    <select
-        value={form.civil_status || ''}
-        onChange={handleChange}
-        id="civil_status"
-        name="civil_status"
-        className={`w-full rounded-md border-2 border-blue-800 p-2 text-black md:pr-11 ${
-            errors.civil_status ? 'border-2 border-red-500' : ''
-        }`}
-    >
-        <option value="">Select...</option>
-        <option value="single">Single</option>
-        <option value="married">Married</option>
-        <option value="widowed">Widowed</option>
-        <option value="separated">Separated</option>
-        <option value="leave-in">Leave-In</option>
-    </select>
-    {errors.civil_status && <p className="text-sm text-red-500">{errors.civil_status}</p>}
-</div>
-
+                <div>
+                    <label className="mb-1 block" htmlFor="civil_status">
+                        Civil Status:
+                    </label>
+                    <select
+                        defaultValue={form.civil_status || ''}
+                        id="civil_status"
+                        name="civil_status"
+                        className={`w-full rounded-md border-2 border-blue-800 p-2 text-black md:pr-11 ${
+                            errors.civil_status ? 'border-2 border-red-500' : ''
+                        }`}
+                    >
+                        <option value="">Select...</option>
+                        <option value="single">Single</option>
+                        <option value="married">Married</option>
+                        <option value="widowed">Widowed</option>
+                        <option value="separated">Separated</option>
+                        <option value="leave-in">Leave-In</option>
+                    </select>
+                    {errors.civil_status && <p className="text-sm text-red-500">{errors.civil_status}</p>}
+                </div>
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -185,7 +179,7 @@ export default function PersonalInfoForm({ form: initialForm, errors, nextStep }
                         Barangay:
                     </label>
                     <Input
-                        defaultValue={form.current_barangay}
+                        defaultValue={form.current_barangay || ''}
                         id="current_barangay"
                         name="current_barangay"
                         className={errors.current_barangay ? 'border-2 border-red-500' : ''}
@@ -199,7 +193,7 @@ export default function PersonalInfoForm({ form: initialForm, errors, nextStep }
                         Municipality/City:
                     </label>
                     <Input
-                        defaultValue={form.current_city}
+                        defaultValue={form.current_city || ''}
                         id="current_city"
                         name="current_city"
                         className={errors.current_city ? 'border-2 border-red-500' : ''}
@@ -213,7 +207,7 @@ export default function PersonalInfoForm({ form: initialForm, errors, nextStep }
                         Province:
                     </label>
                     <Input
-                        defaultValue={form.current_province}
+                        defaultValue={form.current_province || ''}
                         id="current_province"
                         name="current_province"
                         className={errors.current_province ? 'border-2 border-red-500' : ''}
@@ -229,7 +223,7 @@ export default function PersonalInfoForm({ form: initialForm, errors, nextStep }
                         TIN Number:
                     </label>
                     <Input
-                        defaultValue={form.tin_number}
+                        defaultValue={form.tin_number || ''}
                         id="tin_number"
                         name="tin_number"
                         type="number"
@@ -244,7 +238,7 @@ export default function PersonalInfoForm({ form: initialForm, errors, nextStep }
                         Contact Number:
                     </label>
                     <Input
-                        defaultValue={form.contact_number}
+                        defaultValue={form.contact_number || ''}
                         id="contact_number"
                         name="contact_number"
                         type="number"
@@ -261,7 +255,7 @@ export default function PersonalInfoForm({ form: initialForm, errors, nextStep }
                         Email:
                     </label>
                     <Input
-                        defaultValue={form.email}
+                        defaultValue={form.email || ''}
                         id="email"
                         name="email"
                         type="email"
@@ -276,8 +270,7 @@ export default function PersonalInfoForm({ form: initialForm, errors, nextStep }
                         Employment Status:
                     </label>
                     <select
-                        value={form.employment_status || ''}
-                        onChange={handleChange}
+                        defaultValue={form.employment_status || ''}
                         id="employment_status"
                         name="employment_status"
                         className={`w-full rounded-md border-2 border-blue-800 p-2 text-black ${
@@ -307,4 +300,4 @@ export default function PersonalInfoForm({ form: initialForm, errors, nextStep }
             </div>
         </div>
     );
-    }
+}
