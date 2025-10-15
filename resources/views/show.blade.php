@@ -11,7 +11,6 @@
 </head>
 <body>
     <h2>Applicant QR Code</h2>
-    <p>ID: {{ $id }}</p>
     <img src="{{ $qrUrl }}" width="300" height="300" alt="QR Code">
     <br>
     <a href="{{ route('qr.download', $id) }}">Download as PDF</a>
