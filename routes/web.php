@@ -13,10 +13,10 @@ Route::get('/applicant/form', [ApplicantController::class, 'showForm'])->name('a
 Route::post('/applicant/form', [ApplicantController::class, 'Main'])->name('applicant.submit');
 
 //QR Code Generation Route
-Route::get('/qr/{id}', [QrCodeController::class, 'show']);
+Route::get('/qr/{token}', [QrCodeController::class, 'show']);
 
 // Route to download the QR code as a PDF
-Route::get('/qr/download/{id}', [QrCodeController::class, 'download'])->name('qr.download');
+Route::get('/qr/download/{token}', [QrCodeController::class, 'download'])->name('qr.download');
 
 
 require __DIR__.'/settings.php';

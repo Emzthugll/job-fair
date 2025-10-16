@@ -65,7 +65,7 @@ export default function Main({ applicant, email, session_id, errors = {} }: Main
 
                         <button
                             className="mt-6 w-full rounded-md bg-[#033284] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#0242b3d2] sm:w-auto"
-                            onClick={() => window.open(`/qr/download/${initialForm.id}`, '_blank')}
+                            onClick={() => window.open(`/qr/download/${initialForm.qr_token}`, '_blank')}
                         >
                             <div className="flex items-center justify-center">
                                 <QrCode className="h-4 w-4" />

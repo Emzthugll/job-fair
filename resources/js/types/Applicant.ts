@@ -20,41 +20,41 @@ export interface Applicant {
     status?: string;
     email?: string;
     id?: number;
+    qr_token?: string;
 
     jobPreference?: {
-    employment?: string;
-    preferred_job?: string;
-  };
+        employment?: string;
+        preferred_job?: string;
+    };
 
     highestEducation?: {
-    level?: string;
-    course?: string;
-    school?: string;
-    year_graduated?: string;
-};
+        level?: string;
+        course?: string;
+        school?: string;
+        year_graduated?: string;
+    };
 
     eligibility?: {
-      name?: string;
-      issuer?: string;
-      date_of_issuance?: string;
-      date_of_expiration?: string;
-};
+        name?: string;
+        issuer?: string;
+        date_of_issuance?: string;
+        date_of_expiration?: string;
+    };
 
     training?: {
-  name?: string;
-  institution?: string;
-  certificate?: string;
-  date_start?: string;
-  date_end?: string;
-};
+        name?: string;
+        institution?: string;
+        certificate?: string;
+        date_start?: string;
+        date_end?: string;
+    };
 
     workExperience?: {
-  company?: string;
-  position?: string;
- address?: string;
- date_started?: string;
-  date_ended?: string;
- status?: string;
-};
-
+        company?: string;
+        position?: string;
+        address?: string;
+        date_started?: string;
+        date_ended?: string;
+        status?: string;
+    };
 }

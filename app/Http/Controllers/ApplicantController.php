@@ -9,6 +9,7 @@ use App\Models\ApplicantProfileJobPreference;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class ApplicantController extends Controller
 {
@@ -97,6 +98,12 @@ class ApplicantController extends Controller
                 'contact_number' => $validated['contact_number'],
                 'employment_status' => $validated['employment_status'],
             ]);
+
+            // Generate QR token if not exists
+            if (!$applicant->qr_token) {
+            $applicant->qr_token = Str::random(128); 
+            $applicant->save();
+            }
 
             // Job Preference 
             $jobPreference = ApplicantProfileJobPreference::firstOrNew([
