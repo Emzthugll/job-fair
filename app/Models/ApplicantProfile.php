@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class ApplicantProfile extends Model
 {
     use HasFactory;
@@ -50,6 +51,12 @@ class ApplicantProfile extends Model
     public function workExperiences()
     {
         return $this->hasMany(ApplicantProfileWorkExperience::class, 'personal_profile_id');
+    }
+
+    //Recruitment Activities
+    public function recruitmentActivities()
+    {
+        return $this->belongsTo(RecruitmentActivity::class, 'recruitment_activity_id');
     }
 
     // Relation to user
