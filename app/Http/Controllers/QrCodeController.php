@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\ApplicantProfile;
 use App\Models\RecruitmentActivity;
-use App\Models\JobfairRecruitmentAttendee;
 use Barryvdh\DomPDF\Facade\Pdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class QrCodeController extends Controller
