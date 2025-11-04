@@ -6,17 +6,19 @@ use App\Http\Controllers\QrCodeController;
 
 
 
-// Route to display the applicant form 
+// Display form (GET)
 Route::get('/applicant/form', [ApplicantController::class, 'showForm'])->name('applicant.form');
 
-// Route to handle form submission
-Route::post('/applicant/form', [ApplicantController::class, 'Main'])->name('applicant.submit');
+// Handle form submission (POST)
+Route::post('/applicant/form', [ApplicantController::class, 'submit'])->name('applicant.submit');
+    
 
-//QR Code Generation Route
+// Display QR code in browser
 Route::get('/qr/{token}', [QrCodeController::class, 'show']);
 
-// Route to download the QR code as a PDF
+// Download QR code as PDF
 Route::get('/qr/download/{token}', [QrCodeController::class, 'download'])->name('qr.download');
+
 
 
 require __DIR__.'/settings.php';
