@@ -21,6 +21,7 @@ export interface Applicant {
     email?: string;
     id?: number;
     qr_token?: string;
+    event_id?: number;
 
     jobPreference?: {
         employment?: string;
