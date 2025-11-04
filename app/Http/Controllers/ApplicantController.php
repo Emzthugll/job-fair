@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ApplicantFormRequest;
 use App\Models\ApplicantProfile;
 use App\Models\ApplicantProfileJobPreference;
+use App\Models\JobfairRecruitmentAttendee;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -44,7 +45,7 @@ class ApplicantController extends Controller
         // Fetch user email
         $user = User::find($userId);
 
-        return Inertia::render('Main', [
+        return Inertia::render('main', [
             'applicant' => [
                 ...$applicant->toArray(),
                 'jobPreference' => $applicant->jobPreference?->toArray() ?? null,
@@ -129,4 +130,76 @@ class ApplicantController extends Controller
             return $e->getMessage();
         }
     }
+
+    
+    public function submit(ApplicantFormRequest $request)
+    {
+    $validated = $request->validated();
+
+    // 🔹 Validate session
+    $session = DB::table('sessions')->where('id', $validated['session_id'])->first();
+    if (!$session || !$session->user_id) {
+        return redirect('/error')->with('message', 'Invalid or expired session.');
+    }
+
+    $userId = $session->user_id;
+
+    // 🔹 Find existing applicant
+    $applicant = ApplicantProfile::where('user_id', $userId)->latest('id')->first();
+    if (!$applicant) {
+        return redirect('/error')->with('message', 'No applicant profile found.');
+    }
+
+    // 🔹 Update applicant info
+    $applicant->update([
+        'firstname' => $validated['firstname'],
+        'midname' => $validated['midname'] ?? null,
+        'surname' => $validated['surname'],
+        'suffix' => $validated['suffix'] ?? null,
+        'birthday' => $validated['birthday'],
+        'sex' => $validated['sex'],
+        'disability' => $validated['disability'] ?? null,
+        'religion' => $validated['religion'],
+        'tin_number' => $validated['tin_number'],
+        'civil_status' => $validated['civil_status'],
+        'current_barangay' => $validated['current_barangay'],
+        'current_city' => $validated['current_city'],
+        'current_province' => $validated['current_province'],
+        'contact_number' => $validated['contact_number'],
+        'employment_status' => $validated['employment_status'],
+    ]);
+
+    // 🔹 Generate a QR token (64 characters) if not yet assigned
+    if (!$applicant->qr_token) {
+        $applicant->qr_token = Str::random(64);
+        $applicant->save();
+    }
+
+    // 🔹 Ensure recruitment activity ID is provided
+    if (!isset($validated['recruitment_activity_id'])) {
+        return redirect()->back()->with('error', 'Recruitment activity ID is missing.');
+    }
+
+    $eventId = $validated['recruitment_activity_id'];
+
+    // 🔹 Create or update JobfairRecruitmentAttendee record using same QR token
+    JobfairRecruitmentAttendee::updateOrCreate(
+        [
+            'recruitment_activity_id' => $eventId,
+            'applicant_profile_id' => $applicant->id,
+        ],
+        [
+            'qr_token' => $applicant->qr_token,
+            'status' => 'pending',
+        ]
+    );
+
+    // 🔹 Return flash message + QR token
+    return redirect()->back()->with([
+        'success' => 'Applicant profile submitted successfully!',
+        'qr_token' => $applicant->qr_token,
+    ]);
+}
+
+
 }
