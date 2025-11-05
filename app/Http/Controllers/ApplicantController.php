@@ -41,22 +41,33 @@ class ApplicantController extends Controller
         if (!$applicant) {
             return redirect('/error')->with('message', 'No applicant profile found to update.');
         }
+        
+        $attendee = JobfairRecruitmentAttendee::where('recruitment_activity_id', $request->event_id)
+         ->where('applicant_profile_id', $applicant->id)
+         ->first();
+
+        $qr_token = $attendee?->qr_token ?? null;
+
+
 
         // Fetch user email
         $user = User::find($userId);
 
         return Inertia::render('main', [
-            'applicant' => [
-                ...$applicant->toArray(),
-                'jobPreference' => $applicant->jobPreference?->toArray() ?? null,
-                'highestEducation' => $applicant->highestEducation?->toArray() ?? null,
-                'eligibility' => $applicant->eligibilities->first()?->toArray() ?? null,
-                'training' => $applicant->trainings->first()?->toArray() ?? null,
-                'workExperience' => $applicant->workExperiences->first()?->toArray() ?? null,
-            ],
-            'email' => $user?->email ?? '',
-            'session_id' => $request->session_id,
-        ]);
+        'applicant' => [
+        ...$applicant->toArray(),
+        'jobPreference' => $applicant->jobPreference?->toArray() ?? null,
+        'highestEducation' => $applicant->highestEducation?->toArray() ?? null,
+        'eligibility' => $applicant->eligibilities->first()?->toArray() ?? null,
+        'training' => $applicant->trainings->first()?->toArray() ?? null,
+        'workExperience' => $applicant->workExperiences->first()?->toArray() ?? null,
+        'qr_token' => $qr_token, 
+    ],
+    'email' => $user?->email ?? '',
+    'session_id' => $request->session_id,
+    'event_id' => $request->event_id, 
+    ]);
+
     }
 
     /**
@@ -100,7 +111,7 @@ class ApplicantController extends Controller
                 'employment_status' => $validated['employment_status'],
             ]);
 
-            // Generate QR token if not exists
+            // Generate QR token 
             if (!$applicant->qr_token) {
             $applicant->qr_token = Str::random(128); 
             $applicant->save();
@@ -132,25 +143,24 @@ class ApplicantController extends Controller
     }
 
     
-    public function submit(ApplicantFormRequest $request)
-    {
+public function submit(ApplicantFormRequest $request)
+{
     $validated = $request->validated();
 
-    // 🔹 Validate session
+    // Get session / user
     $session = DB::table('sessions')->where('id', $validated['session_id'])->first();
     if (!$session || !$session->user_id) {
         return redirect('/error')->with('message', 'Invalid or expired session.');
     }
-
     $userId = $session->user_id;
 
-    // 🔹 Find existing applicant
+    // Get existing applicant
     $applicant = ApplicantProfile::where('user_id', $userId)->latest('id')->first();
     if (!$applicant) {
         return redirect('/error')->with('message', 'No applicant profile found.');
     }
 
-    // 🔹 Update applicant info
+    // Update applicant info
     $applicant->update([
         'firstname' => $validated['firstname'],
         'midname' => $validated['midname'] ?? null,
@@ -169,20 +179,28 @@ class ApplicantController extends Controller
         'employment_status' => $validated['employment_status'],
     ]);
 
-    // 🔹 Generate a QR token (64 characters) if not yet assigned
+    // Update or create job preference
+    ApplicantProfileJobPreference::updateOrCreate(
+        ['applicant_profile_id' => $applicant->id],
+        [
+            'employment' => $validated['employment'] ?? null,
+            'preferred_job' => $validated['preferred_job'] ?? null,
+        ]
+    );
+
+    // Ensure recruitment activity ID is provided
+    if (!isset($validated['recruitment_activity_id'])) {
+        return redirect()->back()->with('error', 'Recruitment activity ID is missing.');
+    }
+    $eventId = $validated['recruitment_activity_id'];
+
+    // 🔹 Generate QR token if not yet assigned (randomized)
     if (!$applicant->qr_token) {
         $applicant->qr_token = Str::random(64);
         $applicant->save();
     }
 
-    // 🔹 Ensure recruitment activity ID is provided
-    if (!isset($validated['recruitment_activity_id'])) {
-        return redirect()->back()->with('error', 'Recruitment activity ID is missing.');
-    }
-
-    $eventId = $validated['recruitment_activity_id'];
-
-    // 🔹 Create or update JobfairRecruitmentAttendee record using same QR token
+    // Create or update attendee record using the same token
     JobfairRecruitmentAttendee::updateOrCreate(
         [
             'recruitment_activity_id' => $eventId,
@@ -194,11 +212,12 @@ class ApplicantController extends Controller
         ]
     );
 
-    // 🔹 Return flash message + QR token
+    // Return back with flash message + QR token
     return redirect()->back()->with([
-        'success' => 'Applicant profile submitted successfully!',
-        'qr_token' => $applicant->qr_token,
-    ]);
+    'success' => 'Applicant profile submitted successfully!',
+    'qr_token' => $applicant->qr_token, // or $applicant->qr_token
+]);
+
 }
 
 
