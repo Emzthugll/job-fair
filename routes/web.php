@@ -16,6 +16,10 @@ Route::post('/applicant/form', [ApplicantController::class, 'submit'])->name('ap
 // Display QR code in browser
 Route::get('/qr/{token}', [QrCodeController::class, 'show']);
 
+// Generate QR token for a submitted applicant
+Route::post('/applicant/qr/generate', [QrCodeController::class, 'generate'])->name('qr.generate');
+
+
 // Download QR code as PDF
 Route::get('/qr/download/{token}', [QrCodeController::class, 'download'])->name('qr.download');
 
