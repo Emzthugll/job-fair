@@ -20,7 +20,7 @@ export interface Applicant {
     status?: string;
     email?: string;
     id?: number;
-    qr_token?: string;
+    qr_token?: string | null;
     event_id?: number;
 
     jobPreference?: {
