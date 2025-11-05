@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ApplicantProfile;
+use App\Models\JobfairRecruitmentAttendee;
 use App\Models\RecruitmentActivity;
 use Barryvdh\DomPDF\Facade\Pdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -11,6 +12,25 @@ use Illuminate\Http\Request;
 
 class QrCodeController extends Controller
 {
+    public function generate(Request $request)
+{
+    $request->validate([
+        'applicant_id' => 'required|exists:applicant_profiles,id',
+    ]);
+
+    $applicant = ApplicantProfile::find($request->input('applicant_id'));
+
+    // Generate QR token
+    $applicant->qr_token = bin2hex(random_bytes(16));
+    $applicant->save();
+
+    return response()->json([
+        'qr_token' => $applicant->qr_token,
+    ]);
+}
+
+
+
     public function download($token, Request $request)
     {
         try {
